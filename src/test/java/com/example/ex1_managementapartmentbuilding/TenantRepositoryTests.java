@@ -27,17 +27,6 @@ public class TenantRepositoryTests {
 
     @Test
     @Rollback(false)
-    public void testSaveNewTenant()
-    {
-        entityManager.persist(new Tenant(2, "Nguyen Van A", "026541235624", "a@gmail.com", "0325632541", "Cau Giay, Ha Noi"));
-
-        Tenant tenant = tenantRepository.findById(1);
-
-        assertThat(tenant.getId()).isEqualTo(1);
-    }
-
-    @Test
-    @Rollback(false)
     public void testCreateTenant() {
         Tenant savedTenant = tenantRepository.save(new Tenant(1, "Nguyen Van A", "026541235624", "a@gmail.com", "0325632541", "Cau Giay, Ha Noi"));
 
