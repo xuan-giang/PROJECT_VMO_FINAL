@@ -30,6 +30,12 @@ public class ApartmentController {
         return ResponseEntity.ok().body(apartmentService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getApartmentById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(apartmentService.findApartmentById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewApartment(@RequestParam( value = "building_id") Integer building_id,@RequestBody Apartment apartment)
     {

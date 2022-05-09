@@ -43,4 +43,10 @@ public class TenantController {
         tenantService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully!");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTenantById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(tenantService.findTenantById(id));
+    }
 }

@@ -20,6 +20,12 @@ public class WaterBillController {
         return ResponseEntity.ok().body(waterBillService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getWaterBillById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(waterBillService.findWaterPaymentById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewWaterBill(@RequestBody WaterPayment waterPayment)
     {

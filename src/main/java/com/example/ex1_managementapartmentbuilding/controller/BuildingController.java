@@ -37,4 +37,10 @@ public class BuildingController {
         buildingService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully!");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBuildingById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(buildingService.findBuildingById(id));
+    }
 }

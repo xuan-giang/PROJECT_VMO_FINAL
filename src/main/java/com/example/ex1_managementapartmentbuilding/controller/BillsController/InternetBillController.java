@@ -20,6 +20,12 @@ public class InternetBillController {
         return ResponseEntity.ok().body(internetBillService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInternetBillById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(internetBillService.findInternetPaymentById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewInternetBill(@RequestBody InternetPayment internetPayment)
     {

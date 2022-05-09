@@ -40,6 +40,12 @@ public class BillController {
         return ResponseEntity.ok().body(billService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBillById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(billService.findBillById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewBill(@RequestBody Bill bill,
                                            @RequestParam("electric_payment_id") Integer electric_bill_id,

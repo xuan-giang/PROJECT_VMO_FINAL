@@ -36,6 +36,12 @@ public class LeaseController {
         return ResponseEntity.ok().body(leaseService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getLeaseById(@PathVariable Integer id)
+    {
+        return ResponseEntity.ok().body(leaseService.findLeaseById(id));
+    }
+
     // Same to remove tenant from apartment
     @GetMapping("/disable")
     public ResponseEntity<?> disableLease(@RequestParam("lease_id") Integer lease_id)
