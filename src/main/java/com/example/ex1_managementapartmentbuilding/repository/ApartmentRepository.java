@@ -10,4 +10,5 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
     Apartment findById(int id);
 
     Apartment findByName(String name);
+
 }

@@ -77,7 +77,7 @@ public class LeaseServiceImpl implements LeaseService {
 
     @Override
     public Lease findLeaseByApartment(Apartment apartment) {
-        return leaseRepository.findByApartment(apartment);
+        return leaseRepository.findByApartmentAndAndStatus(apartment, 1);
     }
 
     @Override

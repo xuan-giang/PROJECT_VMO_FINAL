@@ -11,4 +11,6 @@ public interface LeaseRepository extends JpaRepository<Lease, Integer> {
     Lease findById(int id);
 
     Lease findByApartment(Apartment apartment);
+
+    Lease findByApartmentAndAndStatus(Apartment apartment, int status);
 }
