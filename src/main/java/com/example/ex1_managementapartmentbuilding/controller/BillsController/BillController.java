@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller.BillsController;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Bill;
 import com.example.ex1_managementapartmentbuilding.service.BillsService.BillService;
 import com.example.ex1_managementapartmentbuilding.service.BillsService.ElectricBillService;
@@ -43,6 +44,7 @@ public class BillController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBillById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(billService.findBillById(id));
     }
 
@@ -66,13 +68,23 @@ public class BillController {
     @PatchMapping
     public ResponseEntity<?> updateBill(@RequestParam("bill_id") Integer id, @RequestBody Bill bill)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(billService.update(id, bill));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteBill(@RequestParam("bill_id") Integer id)
     {
+        checkObjectExist(id);
         billService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully");
+    }
+
+    private void checkObjectExist(int id)
+    {
+        if(billService.findBillById(id) == null)
+        {
+            throw new NotFoundException("Cannot find bill with id " + id);
+        }
     }
 }

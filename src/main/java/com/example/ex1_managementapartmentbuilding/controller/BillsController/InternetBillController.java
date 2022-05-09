@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller.BillsController;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Payments.InternetPayment;
 import com.example.ex1_managementapartmentbuilding.service.BillsService.InternetBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class InternetBillController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getInternetBillById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(internetBillService.findInternetPaymentById(id));
     }
 
@@ -35,6 +37,7 @@ public class InternetBillController {
     @DeleteMapping
     public ResponseEntity<?> deleteInternetBill(@RequestParam("internet_payment_id") Integer id)
     {
+        checkObjectExist(id);
         internetBillService.delete(id);
         return new ResponseEntity<>("Object is deleted successsfully", HttpStatus.OK);
     }
@@ -42,6 +45,15 @@ public class InternetBillController {
     @PatchMapping
     public ResponseEntity<?> updateInternetBill(@RequestParam("internet_payment_id") Integer id, @RequestBody InternetPayment internetPayment)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(internetBillService.update(id, internetPayment));
+    }
+
+    private void checkObjectExist(int id)
+    {
+        if(internetBillService.findInternetPaymentById(id) == null)
+        {
+            throw new NotFoundException("Cannot find internet bill with id " + id);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller.BillsController;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Payments.ElectricPayment;
 import com.example.ex1_managementapartmentbuilding.service.BillsService.ElectricBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class ElectricBillController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getElectricBillById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(electricBillService.findElectricPaymentById(id));
     }
 
@@ -36,6 +38,7 @@ public class ElectricBillController {
     @PatchMapping
     public ResponseEntity<?> updateElectricBill(@RequestParam("electric_payment_id") Integer id ,@RequestBody ElectricPayment electricPayment)
     {
+        checkObjectExist(id);
         electricPayment.caculateFee();
         return ResponseEntity.ok().body(electricBillService.update(id, electricPayment));
     }
@@ -43,7 +46,16 @@ public class ElectricBillController {
     @DeleteMapping
     public ResponseEntity<?> deleteElectricBill(@RequestParam("electric_payment_id") Integer id)
     {
+        checkObjectExist(id);
         electricBillService.delete(id);
         return new ResponseEntity<>("Object is deleted successsfully", HttpStatus.OK);
+    }
+
+    private void checkObjectExist(int id)
+    {
+        if(electricBillService.findElectricPaymentById(id) == null)
+        {
+            throw new NotFoundException("Cannot find electric bill with id " + id);
+        }
     }
 }

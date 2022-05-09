@@ -30,12 +30,14 @@ public class BuildingController {
     @PatchMapping
     public ResponseEntity<?> updateBuilding(@RequestParam("building_id") Integer id, @RequestBody Building building)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(buildingService.update(id, building));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteBuilding(@RequestParam("building_id") Integer id)
     {
+        checkObjectExist(id);
         buildingService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully!");
     }
@@ -43,10 +45,15 @@ public class BuildingController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBuildingById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
+        return ResponseEntity.ok().body(buildingService.findBuildingById(id));
+    }
+
+    private void checkObjectExist(int id)
+    {
         if(buildingService.findBuildingById(id) == null)
         {
             throw new NotFoundException("Cannot find building with id " + id);
         }
-        return ResponseEntity.ok().body(buildingService.findBuildingById(id));
     }
 }

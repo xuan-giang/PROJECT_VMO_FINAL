@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Lease;
 import com.example.ex1_managementapartmentbuilding.service.ApartmentService;
 import com.example.ex1_managementapartmentbuilding.service.LeaseService;
@@ -39,6 +40,7 @@ public class LeaseController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getLeaseById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(leaseService.findLeaseById(id));
     }
 
@@ -46,6 +48,7 @@ public class LeaseController {
     @GetMapping("/disable")
     public ResponseEntity<?> disableLease(@RequestParam("lease_id") Integer lease_id)
     {
+        checkObjectExist(lease_id);
         leaseService.disableLease(lease_id);
         return ResponseEntity.ok().body(leaseService.findLeaseById(lease_id));
     }
@@ -53,6 +56,7 @@ public class LeaseController {
     @PatchMapping
     public ResponseEntity<?> updateLease(@RequestParam("lease_id") Integer id, @RequestBody Lease lease)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(leaseService.update(id, lease));
     }
 
@@ -60,6 +64,15 @@ public class LeaseController {
     public ResponseEntity<?> deleteLease(@RequestParam("lease_id") Integer id)
     {
         //leaseService.delete(id);
-        return ResponseEntity.ok().body("Cannot delete lease!");
+        leaseService.disableLease(id);
+        return ResponseEntity.ok().body(leaseService.findLeaseById(id));
+    }
+
+    private void checkObjectExist(int id)
+    {
+        if(leaseService.findLeaseById(id) == null)
+        {
+            throw new NotFoundException("Cannot find lease with id " + id);
+        }
     }
 }

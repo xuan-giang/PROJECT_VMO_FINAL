@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Apartment;
 import com.example.ex1_managementapartmentbuilding.model.Building;
 import com.example.ex1_managementapartmentbuilding.service.ApartmentService;
@@ -33,6 +34,7 @@ public class ApartmentController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getApartmentById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(apartmentService.findApartmentById(id));
     }
 
@@ -62,21 +64,30 @@ public class ApartmentController {
             }
         }else
         {
-            return ResponseEntity.ok().body("Không tìm thấy!");
+            throw new NotFoundException("Cannot find apartment with name " + name_apartment);
         }
     }
 
     @PatchMapping
     public ResponseEntity<?> updateApartment(@RequestParam("apartment_id") Integer id, @RequestBody Apartment apartment)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(apartmentService.update(id, apartment));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteApartment(@RequestParam("apartment_id") Integer id)
     {
+        checkObjectExist(id);
         apartmentService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully!");
     }
 
+    private void checkObjectExist(int id)
+    {
+        if(apartmentService.findApartmentById(id) == null)
+        {
+            throw new NotFoundException("Cannot find apartment with id " + id);
+        }
+    }
 }

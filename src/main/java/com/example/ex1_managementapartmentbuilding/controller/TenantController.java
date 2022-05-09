@@ -29,18 +29,21 @@ public class TenantController {
     @PatchMapping
     public ResponseEntity<?> updateTenant(@RequestParam("tenant_id") Integer id, @RequestBody Tenant tenant)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(tenantService.update(id, tenant));
     }
 
     @PutMapping
     public ResponseEntity<?> updateTenant1(@RequestParam("tenant_id") Integer id, @RequestBody Tenant tenant)
     {
+        checkObjectExist(id);
         return ResponseEntity.ok().body(tenantService.update(id, tenant));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteTenant(@RequestParam("tenant_id") Integer id)
     {
+        checkObjectExist(id);
         tenantService.delete(id);
         return ResponseEntity.ok().body("Object is deleted successfully!");
     }
@@ -48,10 +51,15 @@ public class TenantController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTenantById(@PathVariable Integer id)
     {
+        checkObjectExist(id);
+        return ResponseEntity.ok().body(tenantService.findTenantById(id));
+    }
+
+    private void checkObjectExist(int id)
+    {
         if(tenantService.findTenantById(id) == null)
         {
             throw new NotFoundException("Cannot find tenant with id " + id);
         }
-        return ResponseEntity.ok().body(tenantService.findTenantById(id));
     }
 }
