@@ -1,5 +1,7 @@
 package com.example.ex1_managementapartmentbuilding.controller;
 
+import com.example.ex1_managementapartmentbuilding.exception.ForeignKeyException;
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Building;
 import com.example.ex1_managementapartmentbuilding.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,10 @@ public class BuildingController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBuildingById(@PathVariable Integer id)
     {
+        if(buildingService.findBuildingById(id) == null)
+        {
+            throw new NotFoundException("Cannot find building with id " + id);
+        }
         return ResponseEntity.ok().body(buildingService.findBuildingById(id));
     }
 }

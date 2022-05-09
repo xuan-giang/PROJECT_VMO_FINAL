@@ -59,7 +59,7 @@ public class LeaseController {
     @DeleteMapping
     public ResponseEntity<?> deleteLease(@RequestParam("lease_id") Integer id)
     {
-        leaseService.delete(id);
-        return ResponseEntity.ok().body("Object is deleted successfully!");
+        //leaseService.delete(id);
+        return ResponseEntity.ok().body("Cannot delete lease!");
     }
 }

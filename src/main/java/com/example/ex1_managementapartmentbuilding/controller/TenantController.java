@@ -1,5 +1,6 @@
 package com.example.ex1_managementapartmentbuilding.controller;
 
+import com.example.ex1_managementapartmentbuilding.exception.NotFoundException;
 import com.example.ex1_managementapartmentbuilding.model.Tenant;
 import com.example.ex1_managementapartmentbuilding.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,10 @@ public class TenantController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTenantById(@PathVariable Integer id)
     {
+        if(tenantService.findTenantById(id) == null)
+        {
+            throw new NotFoundException("Cannot find tenant with id " + id);
+        }
         return ResponseEntity.ok().body(tenantService.findTenantById(id));
     }
 }
