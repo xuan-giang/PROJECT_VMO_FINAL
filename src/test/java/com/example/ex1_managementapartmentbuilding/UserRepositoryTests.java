@@ -19,15 +19,16 @@ public class UserRepositoryTests {
 
     @Autowired private UserRepository repo;
 
-//    @Test
-//    public void testCreateUser() {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String password = passwordEncoder.encode("giang123");
-//
-//        // Change email when re-run
-//        User newUser = new User("admin3@gmail.com", password);
-//        User savedUser = repo.save(newUser);
-//
-//        assertThat(savedUser.getId()).isGreaterThan(0);
-//    }
+    // Test create account, change email before run...
+    @Test
+    public void testCreateUser() {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode("giang123");
+
+        // Change email when re-run
+        User newUser = new User("admin4@gmail.com", password);
+        User savedUser = repo.save(newUser);
+
+        assertThat(savedUser.getId()).isGreaterThan(0);
+    }
 }

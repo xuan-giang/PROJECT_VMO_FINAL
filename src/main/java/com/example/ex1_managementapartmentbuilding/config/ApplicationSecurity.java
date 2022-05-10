@@ -37,8 +37,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/swagger-ui/*").permitAll()
-                .anyRequest().permitAll();
-                //.anyRequest().authenticated();
+                //.anyRequest().permitAll();
+                .anyRequest().authenticated();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(
